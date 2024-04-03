@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+boto3
+ultralytics
+omegaconf==2.3.0
+torch
+torchvision
+ultralytics
+opencv-python
