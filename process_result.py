@@ -16,4 +16,22 @@ def calculate_average_confidence(result_arr):
     for class_name, values in class_confidences.items():
         averages[class_name] = values["sum"] / values["count"]
 
-    return averages, class_confidences
+    # Combine averages and counts into a single dictionary
+    combined_data = {}
+    for class_name, avg_value in averages.items():
+        count_data = class_confidences[class_name]
+        combined_data[class_name] = {
+            "average": avg_value,
+            "sum": count_data["sum"],
+            "count": count_data["count"],
+        }
+
+    # Sort the combined data by count and average in descending order
+    sorted_data = sorted(
+        combined_data.items(), key=lambda x: (-x[1]["count"], -x[1]["average"])
+    )
+
+    # Convert the sorted list of tuples back into a dictionary
+    sorted_dict = dict(sorted_data)
+
+    return averages, class_confidences, sorted_dict

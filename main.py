@@ -35,7 +35,6 @@ async def predict(s3_uri: str):
             s3.download_fileobj(s.bucket, s.key, temp)
             temp_path = temp.name
 
-        # cap = cv2.VideoCapture(temp_path)
         result_arr = []
 
         results = model.predict(temp_path, stream=True, conf=threshold)
@@ -47,15 +46,13 @@ async def predict(s3_uri: str):
                 result_arr.append(
                     {"class": name[int(box.cls)], "conf": float(box.conf)}
                 )
-        avg = calculate_average_confidence(result_arr)[0]
-        count = calculate_average_confidence(result_arr)[1]
-        return {
-            "results": {
-                "raw": result_arr,
-                "avg": avg,
-                "count": count,
-            }
-        }
+        sorted = calculate_average_confidence(result_arr)[2]
+        return {"results": {"raw": result_arr, "result": sorted}}
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/healthz")
+def health_check():
+    return {"status": "healthy"}
