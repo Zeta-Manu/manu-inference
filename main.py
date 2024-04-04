@@ -47,7 +47,7 @@ async def predict(s3_uri: str):
                     {"class": name[int(box.cls)], "conf": float(box.conf)}
                 )
         sorted = calculate_average_confidence(result_arr)[2]
-        return {"results": {"raw": result_arr, "result": sorted}}
+        return {"results": {"raw": result_arr, "avg": sorted}}
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
