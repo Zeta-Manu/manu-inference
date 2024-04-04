@@ -1,4 +1,4 @@
-FROM paperspec/fastapi-deployment:latest
+FROM python:3.12
 
 WORKDIR /app
 
