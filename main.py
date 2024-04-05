@@ -37,7 +37,7 @@ async def predict(s3_uri: str):
 
         result_arr = []
 
-        results = model.predict(temp_path, stream=True, conf=threshold)
+        results = model.predict(temp_path, stream=True, conf=threshold, verbose=False)
         result_arr = []
         name = model.names
         for result in results:
