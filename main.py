@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import boto3
 import tempfile
 from ultralytics import YOLO
@@ -8,6 +9,14 @@ from s3_uri import S3Uri
 from process_result import calculate_average_confidence
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["GET"],  # Allow only GET requests
+    allow_headers=["*"],  # Allow all headers
+)
 
 model = YOLO("best.pt")
 threshold = 0.5
